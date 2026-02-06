@@ -1,0 +1,150 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -576,
+        -176
+      ],
+      "id": "5024ec09-38cf-49f8-895f-1033f06eba21",
+      "name": "When chat message received",
+      "webhookId": "df0d2ebc-ccee-4287-9894-a8f8d02a8652"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are LedgerMind SQL Agent, an AI data analyst connected to a MySQL database.\n\nDatabase: online_retail\nTable: sales\n\nColumns:\nInvoice, StockCode, Description, Quantity, InvoiceDate, Price, Customer ID, Country\n\nAlways return a MySQL query for a valid response query: (result)\n\nRules:\n- When the user asks a data-related question, you must use the MySQL tool.\n- Only generate SELECT queries.\n- Never modify the database.\n- Revenue is Quantity * Price.\n- Limit results to 10 rows unless the user asks otherwise.\n- After querying, explain the result briefly in plain English."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -400,
+        -176
+      ],
+      "id": "a0caef2c-3349-4aa6-b2fe-bc42961af6ec",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -400,
+        32
+      ],
+      "id": "6a811b88-3715-43ed-ae4a-deb399a00061",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -544,
+        32
+      ],
+      "id": "cdc19ce7-2ba4-4634-806f-6748acb5ec2d",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "qeBanKLQpZKjIUrX",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $fromAI('query') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySqlTool",
+      "typeVersion": 2.5,
+      "position": [
+        -256,
+        32
+      ],
+      "id": "6d873bad-3df0-41b1-9dbf-de4cca92ad08",
+      "name": "Execute a SQL query in MySQL",
+      "credentials": {
+        "mySql": {
+          "id": "k4QZcPv10WsFSpmS",
+          "name": "MySQL account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query in MySQL": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "642b14e6-5ada-4408-ba65-896c2a05a2c3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "029bf0c1c418c17d28f72a716b297ddbb35e17954ddd0f86df393add761eaaf1"
+  },
+  "id": "DpmyeMyN1lHh-VGhCpXpy",
+  "tags": []
+}
