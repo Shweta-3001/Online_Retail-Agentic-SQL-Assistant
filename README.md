@@ -2,7 +2,7 @@
 
 A lightweight AI data agent that answers business questions over a **MySQL** database by **generating safe SELECT-only SQL**, executing it via a tool, and returning results with a plain-English summary.
 
-![Agentic AI MySQL Workflow](./Sql Agent Workflow.png)
+![Agentic AI MySQL Workflow](sql-agent-workflow.png)
 
 This project uses:
 - **Docker** to run MySQL reliably
