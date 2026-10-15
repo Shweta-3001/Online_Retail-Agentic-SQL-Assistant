@@ -1,5 +1,12 @@
 # MySQL Retail Analytics Agent (Gemini + Tool Calling)
 
+**Ask a business question in plain English. The agent writes safe, read only SQL, runs it and explains the result.**
+
+![](https://img.shields.io/badge/Gemini-8E75B2?logo=googlegemini&logoColor=white) ![](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white) ![](https://img.shields.io/badge/n8n-Workflow-EA4B71?logo=n8n&logoColor=white) ![](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+
+---
+
+
 A lightweight AI data agent that answers business questions over a **MySQL** database by **generating safe SELECT-only SQL**, executing it via a tool, and returning results with a plain-English summary.
 
 ![Agentic AI MySQL Workflow](sql-agent-workflow.png)
@@ -17,7 +24,8 @@ This project uses:
 - Connects to **MySQL** database: `online_retail`
 - Queries table: `sales`
 - Returns:
-  1) The SQL query it executed   
+  1) The SQL query it executed
+  2) The query results
   3) A brief plain-English explanation  
 
 ---
